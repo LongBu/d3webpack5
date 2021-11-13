@@ -35,4 +35,25 @@ function overallTeamViz(incomingData) {
       .style('text-anchor', 'middle')
       .attr('y', 30)
       .text((d) => d.team);
+
+  const dataKeys = Object.keys(incomingData[0])
+      .filter((d) => d !== 'team' && d !== 'region');
+
+  d3.select('#controls').selectAll('button.teams')
+      .data(dataKeys).enter()
+      .append('button')
+      .on('click', buttonClick)
+      .html((d) => d);
+  /**
+      *  The following processes the incoming team-country click ephemera
+      *  @param {event} event The incoming click event
+      */
+  function buttonClick(event) {
+    const att = event.target.innerHTML;
+    const maxValue = d3.max(incomingData, (d) => parseFloat(d[att]));
+    const radiusScale = d3.scaleLinear()
+        .domain([0, maxValue]).range([2, 20]);
+    d3.selectAll('g.overallG').select('circle')
+        .attr('r', (d) => radiusScale(d[att]));
+  }
 }
