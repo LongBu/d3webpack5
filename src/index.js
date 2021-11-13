@@ -46,6 +46,8 @@ function overallTeamViz(incomingData) {
       .attr('y', 30)
       .text((d) => d.team);
 
+  teamG.select('text').style('pointer-events', 'none');
+
   const dataKeys = Object.keys(incomingData[0])
       .filter((d) => d !== 'team' && d !== 'region');
 
@@ -63,11 +65,14 @@ function overallTeamViz(incomingData) {
         d3.select(self).classed('active', true) :
         d3.select(self).classed('inactive', true);
     });
+    self.parentElement.appendChild(self);
   });
   teamG.on('mouseout', function() {
     d3.selectAll('g.overallG').select('circle').attr('class', '');
     d3.selectAll('g.overallG').select('text')
-        .classed('highlight', false).attr('y', 30);
+        .classed('highlight', false).attr('y', 30)
+        .classed('active', false)
+        .classed('incative', true);
   });
   /**
       *  The following processes the incoming team-country click ephemera
