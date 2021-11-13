@@ -44,6 +44,16 @@ function overallTeamViz(incomingData) {
       .append('button')
       .on('click', buttonClick)
       .html((d) => d);
+  teamG.on('mouseover', function(d) {
+    const targetData = d.target.__data__;
+    d3.selectAll('g.overallG').select('circle')
+        .style('fill', function(p) {
+          return p.region === targetData.region ? 'red' : 'gray';
+        });
+  });
+  teamG.on('mouseout', function() {
+    d3.selectAll('g.overallG').select('circle').style('fill', 'pink');
+  });
   /**
       *  The following processes the incoming team-country click ephemera
       *  @param {event} event The incoming click event
