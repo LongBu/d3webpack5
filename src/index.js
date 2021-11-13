@@ -25,6 +25,16 @@ function overallTeamViz(incomingData) {
 
   teamG
       .append('circle')
+      .attr('r', 0)
+      .transition()
+      .delay(function(d, i) {
+        return i * 100;
+      })
+      .duration(500)
+      .attr('r', 40)
+      .transition()
+      .duration(500)
+      .attr('r', 20)
       .attr('r', 20)
       .style('fill', 'pink')
       .style('stroke', 'black')
@@ -46,7 +56,7 @@ function overallTeamViz(incomingData) {
       .html((d) => d);
   teamG.on('mouseover', function(d) {
     const targetData = d.target.__data__;
-    d3.selectAll('g.overallG').select('circle')
+    d3.selectAll('g.overallG').select('circle').transition().duration(1000)
         .style('fill', function(p) {
           return p.region === targetData.region ? 'red' : 'gray';
         });
