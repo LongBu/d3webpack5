@@ -1,23 +1,23 @@
 const HtmlWebPackPlugin = require( 'html-webpack-plugin' );
 const path = require( 'path' );
 module.exports = {
-   context: __dirname,
-   entry: './src/index.js',
-   output: {
-      path: path.resolve( __dirname, './dist' ),
-      filename: 'index.bundle.js',
-   },
-   devtool: 'inline-source-map',
-   module: {
+  context: __dirname,
+  entry: './src/index.js',
+  output: {
+    path: path.resolve( __dirname, './dist' ),
+    filename: 'index.bundle.js',
+  },
+  devtool: 'inline-source-map',
+  module: {
     rules: [
       {
         test: /\.csv$/,
-        type: 'asset/resource'
-      }
-    ]
+        type: 'asset/resource',
+      },
+    ],
   },
 
-   plugins: [
-      new HtmlWebPackPlugin({ template: './src/index.html' })
-   ]
+  plugins: [
+    new HtmlWebPackPlugin({template: './src/index.html'}),
+  ],
 };
