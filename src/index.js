@@ -54,15 +54,20 @@ function overallTeamViz(incomingData) {
       .append('button')
       .on('click', buttonClick)
       .html((d) => d);
-  teamG.on('mouseover', function(d) {
+  teamG.on('mouseover', function(d, i) {
+    const self = this;
     const targetData = d.target.__data__;
-    d3.selectAll('g.overallG').select('circle').transition().duration(1000)
-        .style('fill', function(p) {
-          return p.region === targetData.region ? 'red' : 'gray';
-        });
+    d3.select(self).select('text').classed('active', true).attr('y', 10);
+    d3.selectAll('g.overallG').select('circle').each(function(p, i) {
+        p.region === targetData.region ?
+        d3.select(self).classed('active', true) :
+        d3.select(self).classed('inactive', true);
+    });
   });
   teamG.on('mouseout', function() {
-    d3.selectAll('g.overallG').select('circle').style('fill', 'pink');
+    d3.selectAll('g.overallG').select('circle').attr('class', '');
+    d3.selectAll('g.overallG').select('text')
+        .classed('highlight', false).attr('y', 30);
   });
   /**
       *  The following processes the incoming team-country click ephemera
