@@ -54,11 +54,10 @@ function overallTeamViz(incomingData) {
       .append('button')
       .on('click', buttonClick)
       .html((d) => d);
-  teamG.on('mouseover', function(d, i) {
-    const self = this;
-    const targetData = d.target.__data__;
+  teamG.on('mouseover', function(d, targetData) {
+    const self = d.currentTarget;
     d3.select(self).select('text').classed('active', true).attr('y', 10);
-    d3.selectAll('g.overallG').select('circle').each(function(p, i) {
+    d3.selectAll('g.overallG').select('circle').each(function(p, j) {
         p.region === targetData.region ?
         d3.select(self).classed('active', true) :
         d3.select(self).classed('inactive', true);
