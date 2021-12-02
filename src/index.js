@@ -87,7 +87,7 @@ function overallTeamViz(incomingData) {
     const maxValue = d3.max(incomingData, (d) => parseFloat(d[att]));
     const radiusScale = d3.scaleLinear()
         .domain([0, maxValue]).range([2, 20]);
-    const ybRamp = d3.scaleLinear().interpolate(d3.interpolateHsl)
+    const ybRamp = d3.scaleLinear().interpolate(d3.interpolateHcl)
         .domain([0, maxValue]).range(['yellow', 'blue']);
 
     d3.selectAll('g.overallG').select('circle')
