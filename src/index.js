@@ -57,13 +57,16 @@ function overallTeamViz(incomingData) {
       .on('click', buttonClick)
       .html((d) => d);
   teamG.on('mouseover', function(d, targetData) {
+    const teamColor = d3.rgb('pink');
     const self = d.currentTarget;
     // const targetData = d.target.__data__;
     d3.select(self).select('text').classed('active', true).attr('y', 10);
-    d3.selectAll('g.overallG').select('circle').each(function(p, i) {
-        p.region === targetData.region ?
-        d3.select(self).classed('active', true) :
-        d3.select(self).classed('inactive', true);
+    d3.selectAll('g.overallG').select('circle').style('fill', function(p) {
+      if (p.region === targetData.region) {
+        return teamColor.darker(.75);
+      } else {
+        return teamColor.brighter(.5);
+      }
     });
     self.parentElement.appendChild(self);
   });
@@ -72,7 +75,8 @@ function overallTeamViz(incomingData) {
     d3.selectAll('g.overallG').select('text')
         .classed('highlight', false).attr('y', 30)
         .classed('active', false)
-        .classed('incative', true);
+        .classed('inactive', true);
+    d3.selectAll('g.overallG circle').style('fill', 'pink');
   });
   /**
       *  The following processes the incoming team-country click ephemera
