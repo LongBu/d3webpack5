@@ -87,10 +87,11 @@ function overallTeamViz(incomingData) {
     const maxValue = d3.max(incomingData, (d) => parseFloat(d[att]));
     const radiusScale = d3.scaleLinear()
         .domain([0, maxValue]).range([2, 20]);
-    const tenColorScale = d3.scaleOrdinal(d3.schemeCategory10);
+    const ybRamp = d3.scaleLinear().interpolate(d3.interpolateLab)
+        .domain([0, maxValue]).range(['yellow', 'blue']);
 
-    d3.selectAll('g.overallG').select('circle').transition().duration(1000)
+    d3.selectAll('g.overallG').select('circle')
         .attr('r', (d) => radiusScale(d[att]))
-        .style('fill', (d) => tenColorScale(d['region']));
+        .style('fill', (d) => ybRamp(d[att]));
   }
 }
