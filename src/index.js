@@ -88,7 +88,7 @@ function overallTeamViz(incomingData) {
     const radiusScale = d3.scaleLinear()
         .domain([0, maxValue]).range([2, 20]);
     const tenColorScale = d3.scaleOrdinal(d3.schemeCategory10);
-
+    tenColorScale.domain(["UEFA", "CONMEBOL", "AFC", "CONCACAF"]);
     d3.selectAll('g.overallG').select('circle').transition().duration(1000)
         .attr('r', (d) => radiusScale(d[att]))
         .style('fill', (d) => tenColorScale(d['region']));
