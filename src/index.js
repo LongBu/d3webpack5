@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
 import csvPath from './worldcup.csv';
 
+
 d3.csv(csvPath).then(function(data) {
   overallTeamViz(data);
 });
@@ -39,6 +40,30 @@ function overallTeamViz(incomingData) {
       .style('fill', 'pink')
       .style('stroke', 'black')
       .style('stroke-width', '1px');
+  /**
+  *  The following processes the incoming team data webpack importer of
+  *  all associated png files
+  *  @param {json} r associated image ephemera for the team flags.
+  *  @return {json} a mapping of the webpack addresses for the given flag
+  */
+  function importAll(r) {
+    const images = {};
+    r.keys().map((item, index) => {
+      images[item.replace('./', '')] = r(item);
+    });
+    return images;
+  }
+
+  const images = importAll(require.context('./images',
+      false, /\.(png|jpe?g|svg)$/));
+  d3.selectAll('g.overallG').insert('image', 'text')
+      .attr('xlink:href', function(d) {
+        return images[d.team + '.png'];
+      })
+      .attr('width', '45px')
+      .attr('height', '20px')
+      .attr('x', '-22')
+      .attr('y', '-10');
 
   teamG
       .append('text')
