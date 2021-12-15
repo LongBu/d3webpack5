@@ -14,6 +14,13 @@ module.exports = {
         test: /\.(csv|png)$/,
         type: 'asset/resource',
       },
+      {
+        test: /\.html$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'html-loader',
+        },
+      },
     ],
   },
 
