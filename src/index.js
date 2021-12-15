@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
 import csvPath from './worldcup.csv';
 import modal from './modal.html';
+import svgAdd from './soccer_ball2.svg'
 
 
 d3.csv(csvPath).then(function(data) {
@@ -8,6 +9,17 @@ d3.csv(csvPath).then(function(data) {
 });
 
 d3.select('body').append('div').attr('id', 'modal').html(modal);
+d3.xml(svgAdd)
+  .then((xml) => {
+    let svgData;
+    if (xml.children[0].localName.toLowerCase() === 'svg'){
+      svgData = xml.children[0].children;
+    }
+    else{
+      svgData = xml.children;
+    }
+    d3.select("svg").node().append(...svgData);
+  });
 
 /**
 *  The following processes the incoming team data post async processing of the

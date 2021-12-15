@@ -11,7 +11,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(csv|png)$/,
+        test: /\.(csv|png|svg)$/,
         type: 'asset/resource',
       },
       {
