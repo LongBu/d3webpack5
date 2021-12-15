@@ -1,14 +1,10 @@
 import * as d3 from 'd3';
 import csvPath from './worldcup.csv';
-import modal from './modal.html';
 
 
 d3.csv(csvPath).then(function(data) {
   overallTeamViz(data);
 });
-
-d3.select('body').append('div').attr('id', 'modal').html(modal);
-
 /**
 *  The following processes the incoming team data post async processing of the
 *  csv file
@@ -106,14 +102,6 @@ function overallTeamViz(incomingData) {
         .classed('active', false)
         .classed('inactive', true);
     d3.selectAll('g.overallG circle').style('fill', 'pink');
-  });
-
-  teamG.on('click', function(d, targetData) {
-    d3.selectAll('td.data')
-        .data(Object.values(targetData))
-        .html(function(p) {
-          return p;
-        });
   });
   /**
       *  The following processes the incoming team-country click ephemera
