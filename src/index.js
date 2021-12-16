@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import csvPath from './worldcup.csv';
 import modal from './modal.html';
-import svgAdd from './soccer_ball2.svg'
+import svgAdd from './soccer_ball2.svg';
 
 
 d3.csv(csvPath).then(function(data) {
@@ -9,17 +9,16 @@ d3.csv(csvPath).then(function(data) {
 });
 
 d3.select('body').append('div').attr('id', 'modal').html(modal);
-d3.xml(svgAdd)
-  .then((xml) => {
-    let svgData;
-    if (xml.children[0].localName.toLowerCase() === 'svg'){
-      svgData = xml.children[0].children;
-    }
-    else{
-      svgData = xml.children;
-    }
-    d3.select("svg").node().append(...svgData);
-  });
+// d3.xml(svgAdd)
+//     .then((xml) => {
+//       let svgData;
+//       if (xml.children[0].localName.toLowerCase() === 'svg') {
+//         svgData = xml.children[0].children;
+//       } else {
+//         svgData = xml.children;
+//       }
+//       d3.select('svg').node().append(...svgData);
+//     });
 
 /**
 *  The following processes the incoming team data post async processing of the
@@ -52,10 +51,23 @@ function overallTeamViz(incomingData) {
       .transition()
       .duration(500)
       .attr('r', 20)
-      .attr('r', 20)
+      .attr('r', 80)
       .style('fill', 'pink')
       .style('stroke', 'black')
       .style('stroke-width', '1px');
+
+      d3.xml(svgAdd)
+          .then((xml) => {
+            let svgData;
+            if (xml.children[0].localName.toLowerCase() === 'svg') {
+              svgData = xml.children[0].children;
+            } else {
+              svgData = xml.children;
+            }
+            teamG.append('path')
+            .attr('d', svgData[1].attributes.d.nodeValue)
+          });
+
   /**
   *  The following processes the incoming team data webpack importer of
   *  all associated png files
@@ -70,16 +82,16 @@ function overallTeamViz(incomingData) {
     return images;
   }
 
-  const images = importAll(require.context('./images',
-      false, /\.(png|jpe?g|svg)$/));
-  d3.selectAll('g.overallG').insert('image', 'text')
-      .attr('xlink:href', function(d) {
-        return images[d.team + '.png'];
-      })
-      .attr('width', '45px')
-      .attr('height', '20px')
-      .attr('x', '-22')
-      .attr('y', '-10');
+  // const images = importAll(require.context('./images',
+  //     false, /\.(png|jpe?g|svg)$/));
+  // d3.selectAll('g.overallG').insert('image', 'text')
+  //     .attr('xlink:href', function(d) {
+  //       return images[d.team + '.png'];
+  //     })
+  //     .attr('width', '45px')
+  //     .attr('height', '20px')
+  //     .attr('x', '-22')
+  //     .attr('y', '-10');
 
   teamG
       .append('text')
