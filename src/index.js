@@ -145,15 +145,15 @@ function overallTeamViz(incomingData) {
       *  The following processes the incoming team-country click ephemera
       *  @param {event} event The incoming click event
       */
-  function buttonClick(event) {
-    const att = event.target.innerHTML;
-    const maxValue = d3.max(incomingData, (d) => parseFloat(d[att]));
-    const radiusScale = d3.scaleLinear()
-        .domain([0, maxValue]).range([2, 20]);
-    const colorQuantize = d3.scaleOrdinal(d3.schemeReds[3]);
-    colorQuantize.domain([0, maxValue]);
-    d3.selectAll('g.overallG').select('circle').transition().duration(1000)
-        .attr('r', (d) => radiusScale(d[att]))
-        .style('fill', (d) => colorQuantize(d['region']));
-  }
+      function buttonClick(event) {
+        const att = event.target.innerHTML;
+        const maxValue = d3.max(incomingData, (d) => parseFloat(d[att]));
+        const radiusScale = d3.scaleLinear()
+            .domain([0, maxValue]).range([2, 20]);
+        const tenColorScale = d3.scaleOrdinal(d3.schemeCategory10);
+        tenColorScale.domain(["UEFA", "CONMEBOL", "AFC", "CONCACAF"]);
+        d3.selectAll('g.overallG').select('path').transition().duration(1000)
+            // .attr('r', (d) => radiusScale(d[att]))
+            .style('fill', (d) => tenColorScale(d['region']));
+      }
 }
