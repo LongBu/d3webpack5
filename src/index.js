@@ -66,6 +66,8 @@ function overallTeamViz(incomingData) {
             }
             teamG.append('path')
             .attr('d', svgData[1].attributes.d.nodeValue)
+            .style("fill", "darkred")
+            .style("stroke", "black").style("stroke-width", "1px")
           });
 
   /**
