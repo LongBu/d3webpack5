@@ -4,6 +4,7 @@ import {
   scaleLinear as d3ScaleLinear,
   select as d3Select,
   csv as d3Csv,
+  format as d3Format,
 } from 'd3';
 import csvPath from './boxplots.csv';
 
@@ -25,25 +26,26 @@ function scatterplot(data) {
       .attr('id', 'yAxisG')
       .call(yAxis);
   const xAxis = d3AxisBottom(xScale).tickSize(-470)
-      .tickValues([1, 2, 3, 4, 5, 6, 7]);
+      .tickValues([1, 2, 3, 4, 5, 6, 7])
+      .tickFormat(d3Format('d'));
 
   d3Select('svg').append('g')
       .attr('transform', 'translate(0,480)')
       .attr('id', 'xAxisG')
       .call(xAxis);
-  d3Select('svg').selectAll('circle.median')
-      .data(data)
-      .enter()
-      .append('circle')
-      .attr('class', 'tweets')
-      .attr('r', 5)
-      .attr('cx', function(d) {
-        return xScale(d.day);
-      })
-      .attr('cy', function(d) {
-        return yScale(d.median);
-      })
-      .style('fill', 'darkgray');
+  // d3Select('svg').selectAll('circle.median')
+  //     .data(data)
+  //     .enter()
+  //     .append('circle')
+  //     .attr('class', 'tweets')
+  //     .attr('r', 5)
+  //     .attr('cx', function(d) {
+  //       return xScale(d.day);
+  //     })
+  //     .attr('cy', function(d) {
+  //       return yScale(d.median);
+  //     })
+  //     .style('fill', 'darkgray');
 
   d3Select('svg').selectAll('g.box')
       .data(data).enter()
@@ -54,7 +56,13 @@ function scatterplot(data) {
       })
       .append('rect')
       .attr('width', 20)
+      .attr('x', -10)
+      .attr('y', function(d) {
+        return yScale(d.q3) - yScale(d.median);
+      })
       .attr('height', function(d) {
         return yScale(d.q1) - yScale(d.q3);
-      });
+      })
+      .style('fill', 'white')
+      .style('stroke', 'black'); ;
 }
