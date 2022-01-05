@@ -44,4 +44,17 @@ function scatterplot(data) {
         return yScale(d.median);
       })
       .style('fill', 'darkgray');
+
+  d3Select('svg').selectAll('g.box')
+      .data(data).enter()
+      .append('g')
+      .attr('class', 'box')
+      .attr('transform', function(d) {
+        return 'translate(' + xScale(d.day) +',' + yScale(d.median) + ')';
+      })
+      .append('rect')
+      .attr('width', 20)
+      .attr('height', function(d) {
+        return yScale(d.q1) - yScale(d.q3);
+      });
 }
